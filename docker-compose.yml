@@ -1,0 +1,30 @@
+version: '3'
+
+name: rna
+
+services:
+  base:
+    build: ./base
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/mike/projects:/project:cached
+      - /data:/data:cached
+      - ./env/.julia:/root/.julia:cached
+      - ./env/.jupyter:/root/.jupyter:cached
+    
+  shapemapper:
+    profiles:
+      - components
+    build: ./shapemapper
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data:/data:cached
+    # ports:
+    #   - "8888:8888"
+
